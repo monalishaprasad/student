@@ -1,5 +1,6 @@
 package com.school.studentDetails.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ public class Teacher {
 	private String teacherName;
 	private String teacherSub;
 
-	@OneToOne
+	@OneToOne(cascade= CascadeType.ALL)
 	private PersonalDetails teacherDetails;
 
 	public int getId() {
