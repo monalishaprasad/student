@@ -2,6 +2,7 @@ package com.school.studentDetails.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,24 +24,27 @@ public class Student {
 	@Column(name = "id", unique = true, nullable = false)
 	int id;
 
-	@ManyToMany
-	@JoinColumn(insertable=false,updatable=false)
-	private List<Teacher> teacher;
-	
-	@Column(name="l")
-	private int teacherId;
+	private String name;
+	private int rollNumber;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Book book;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Vehicle> vehicle;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Section section;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private PersonalDetails studentDetails;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	private List<Teacher> teacher;
+
+	@OneToMany
+	@JoinColumn(name = "STUDENT_ID")
+	private List<Loan> loan;
 
 	public int getId() {
 		return id;
@@ -50,20 +54,20 @@ public class Student {
 		this.id = id;
 	}
 
-	public PersonalDetails getStudentDetails() {
-		return studentDetails;
+	public String getName() {
+		return name;
 	}
 
-	public void setStudentDetails(PersonalDetails studentDetails) {
-		this.studentDetails = studentDetails;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public List<Teacher> getTeacher() {
-		return teacher;
+	public int getRollNumber() {
+		return rollNumber;
 	}
 
-	public void setTeacher(List<Teacher> teacher) {
-		this.teacher = teacher;
+	public void setRollNumber(int rollNumber) {
+		this.rollNumber = rollNumber;
 	}
 
 	public Book getBook() {
@@ -90,18 +94,35 @@ public class Student {
 		this.section = section;
 	}
 
-	public PersonalDetails getPersonalDetails() {
+	public PersonalDetails getStudentDetails() {
 		return studentDetails;
 	}
 
-	public void setPersonalDetails(PersonalDetails personalDetails) {
-		this.studentDetails = personalDetails;
+	public void setStudentDetails(PersonalDetails studentDetails) {
+		this.studentDetails = studentDetails;
+	}
+
+	public List<Teacher> getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(List<Teacher> teacher) {
+		this.teacher = teacher;
+	}
+
+	public List<Loan> getLoan() {
+		return loan;
+	}
+
+	public void setLoan(List<Loan> loan) {
+		this.loan = loan;
 	}
 
 	@Override
 	public String toString() {
-		return "Student [teacher=" + teacher + ", book=" + book + ", vehicle=" + vehicle + ", section=" + section
-				+ ", personalDetails=" + studentDetails + "]";
+		return "Student [id=" + id + ", name=" + name + ", rollNumber=" + rollNumber + ", book=" + book + ", vehicle="
+				+ vehicle + ", section=" + section + ", studentDetails=" + studentDetails + ", teacher=" + teacher
+				+ ", loan=" + loan + "]";
 	}
 
 }

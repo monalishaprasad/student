@@ -13,13 +13,13 @@ import com.school.studentDetails.Service.StudentService;
 import com.school.studentDetails.model.Student;
 
 @RestController
-@RequestMapping(value = "/StudentController")
+@RequestMapping(value = "/studentController")
 public class StudentController {
 
 	@Autowired
 	private StudentService studentService;
 
-	@PostMapping
+	@PostMapping 
 	public Student postStudent(@RequestBody Student student) {
 
 		Student students = studentService.addStudentDetails(student);

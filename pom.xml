@@ -33,6 +33,7 @@
 			<artifactId>h2</artifactId>
 			<version>1.4.194</version>
 		</dependency>
+		
 
 		<dependency>
 			<groupId>mysql</groupId>
@@ -59,11 +60,18 @@
 
 
 	<build>
-		<plugins>
+	<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+			 <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+              <annotationProcessorPaths>
+          
+        </annotationProcessorPaths>
+            </configuration>
+            </plugin>
 		</plugins>
 	</build>
 
