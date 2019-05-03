@@ -1,13 +1,12 @@
 package com.school.studentDetails.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.school.studentDetails.dto.LoanDTO;
+import com.school.studentDetails.mapper.LoanMapper;
 import com.school.studentDetails.model.Loan;
 import com.school.studentDetails.model.Passbook;
 import com.school.studentDetails.repository.LoanRepository;
@@ -18,31 +17,28 @@ public class LoanServices {
 	@Autowired
 	private LoanRepository loanRepo;
 
+	@Autowired
+	private LoanMapper loanMapper;
+
 	Passbook passbook = new Passbook();
 
-	public Loan createLoan(Loan loan) {
-		
-		//get loan amt and interest
-		//sum them
-		double totalPaybackAmount = loan.getLoanAmount() + loan.getInterestAmount();
-		
-		//set total payback
-		loan.setTotalPaybackAmount(totalPaybackAmount);
-		
-		//set totalrepaid = 0
-		loan.setPaidAmount(0);
-		
-		//set dues
-		loan.setDues(loan.getTotalPaybackAmount());
-		
-		//set the date on which the loan was created
-		
-		LocalDateTime todaysDate = LocalDateTime.now();
-		loan.setCreatedOn(todaysDate);
-		
-		Loan loans = loanRepo.saveAndFlush(loan);
-		
-		return loans;
+	public LoanDTO createLoan(LoanDTO loanDto) {
+
+		Loan loan = loanMapper.loanDtoToLoan(loanDto);
+
+		loan = loanRepo.saveAndFlush(loan);// .... jo chiz save hua hai wo data aaega save kre k bad.
+
+		loanDto = loanMapper.loanToLoanDTO(loan);// ye us data to dto me convert krne k liye.
+
+		// calculate totalPaybackAmount
+
+		double totalPaybackAmount = loanDto.getLoanAmount() + loanDto.getInterestAmount();
+		loanDto.setTotalPaybackAmount(totalPaybackAmount);
+
+		// set dues //
+		loanDto.setDues(loanDto.getTotalPaybackAmount());
+
+		return loanDto;
 
 	}
 
@@ -58,34 +54,31 @@ public class LoanServices {
 		return loan;
 	}
 
-	public Loan doUpdatePassbook(Loan loan) {
+	/*
+	 * public Loan updatePassbook(Loan loan) {
+	 * 
+	 * if(loan.isActive()) { List<Passbook> passbook = loan.getPassbook(); if
+	 * (passbook != null) { double totalRepaidAmount = 0.00; for (Passbook item :
+	 * passbook) { if (item.getOutstandingBalance() == 0) {
+	 * item.setOutstandingBalance(loan.getDues() - item.getRepaidAmount());
+	 * 
+	 * } DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+	 * LocalDate localDate = LocalDate.now();
+	 * item.setModifiedOnDate(dtf.format(localDate));
+	 * loan.setModifiedOn(dtf.format(localDate)); totalRepaidAmount =
+	 * totalRepaidAmount + item.getRepaidAmount(); }
+	 * 
+	 * loan.setPaidAmount(totalRepaidAmount);
+	 * loan.setDues(loan.getTotalPaybackAmount() - loan.getPaidAmount()); }
+	 * 
+	 * // set loan as inactive if no dues if (loan.getDues() == 0) {
+	 * loan.setActive(false); } }
+	 * 
+	 * 
+	 * 
+	 * Loan loans = loanRepo.save(loan);
+	 * 
+	 * return loans; }
+	 */
 
-		
-		double paidAmount = 0;
-		long outstandingBalance = 0;
-		double dues=0;
-		
-
-		paidAmount = loan.getPaidAmount() + passbook.getRepaidAmount();
-		loan.setPaidAmount(paidAmount);
-
-		outstandingBalance = passbook.getOutstandingBalance() - passbook.getRepaidAmount();
-		passbook.setOutstandingBalance(outstandingBalance);
-		
-		dues= passbook.getOutstandingBalance()-loan.getPaidAmount();
-		loan.setDues(dues);
-
-		if (passbook.getOutstandingBalance() == 0) {
-			loan.setActive(false);
-		}
-		
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-		LocalDate localDate = LocalDate.now();
-		
-		passbook.setDate((dtf.format(localDate)));
-
-		Loan loans = loanRepo.save(loan);
-
-		return loans;
-	}
 }

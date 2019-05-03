@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.school.studentDetails.Service.LoanServices;
+import com.school.studentDetails.dto.LoanDTO;
 import com.school.studentDetails.model.Loan;
 
 @RestController
@@ -22,9 +23,9 @@ public class LoanController {
 	private LoanServices loanService;
 
 	@PostMapping
-	public Loan loans(@RequestBody Loan loan) {
+	public LoanDTO loans(@RequestBody LoanDTO loanDto) {
 
-		Loan postloan = loanService.createLoan(loan);
+		LoanDTO postloan = loanService.createLoan(loanDto);
 
 		return postloan;
 
@@ -45,12 +46,13 @@ public class LoanController {
 		return loanService.getLoanById(id);
 	}
 
-	@PutMapping
-	public Loan updatePassbook(@RequestBody Loan loan) {
-
-		Loan updatePassbook = loanService.doUpdatePassbook(loan);
-		return updatePassbook;
-
-	}
+	/*
+	 * @PutMapping public Loan updatePassbook(@RequestBody Loan loan) {
+	 * 
+	 * Loan updatePassbook = loanService.updatePassbook(loan); return
+	 * updatePassbook;
+	 * 
+	 * }
+	 */
 
 }

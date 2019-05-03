@@ -1,65 +1,48 @@
-package com.school.studentDetails.model;
+package com.school.studentDetails.dto;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
-@Table(name = "STUDENT")
-@Entity
-public class Student {
+import com.school.studentDetails.model.Book;
+import com.school.studentDetails.model.Loan;
+import com.school.studentDetails.model.PersonalDetails;
+import com.school.studentDetails.model.Section;
+import com.school.studentDetails.model.Teacher;
+import com.school.studentDetails.model.Vehicle;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
-	int id;
+public class StudentDTO {
 
-	private String StudentName;
+	private String studentName;
 	private int rollNumber;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	private Book book;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany
 	private List<Vehicle> vehicle;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	private Section section;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	private PersonalDetails studentDetails;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private List<Teacher> teacher;
 
 	@OneToMany
-	@JoinColumn(name = "STUDENT_ID")
 	private List<Loan> loan;
 
-	public int getId() {
-		return id;
+	public String getStudentName() {
+		return studentName;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return StudentName;
-	}
-
-	public void setName(String name) {
-		this.StudentName = name;
+	public void setStudentName(String studentName) {
+		this.studentName = studentName;
 	}
 
 	public int getRollNumber() {
@@ -120,9 +103,10 @@ public class Student {
 
 	@Override
 	public String toString() {
-		return "Student [id=" + id + ", name=" + StudentName + ", rollNumber=" + rollNumber + ", book=" + book + ", vehicle="
-				+ vehicle + ", section=" + section + ", studentDetails=" + studentDetails + ", teacher=" + teacher
-				+ ", loan=" + loan + "]";
+		return String.format(
+				"StudentDTO [studentName=%s, rollNumber=%s, book=%s, vehicle=%s, section=%s, studentDetails=%s, teacher=%s, loan=%s]",
+				studentName, rollNumber, book, vehicle, section, studentDetails, teacher, loan);
 	}
 
+	
 }

@@ -1,45 +1,27 @@
-package com.school.studentDetails.model;
+package com.school.studentDetails.dto;
 
-import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "LOAN")
-public class Loan implements Serializable {
+import com.school.studentDetails.model.Passbook;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id", unique = true, nullable = false)
+public class LoanDTO {
+
 	private int id;
 	private String loanReason;
 	private double loanAmount;
 	private double interestAmount;
 	private double totalPaybackAmount;
 	private double paidAmount;
-	
+	private double dues;
 	private String createdOn;
 	private String modifiedOn;
 	private boolean active = true;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "LoanId")
+	@OneToMany
 	private List<Passbook> passbook;
 
-	@Column(name = "STUDENT_ID")
 	private int studentId;
 
 	public int getId() {
@@ -90,7 +72,29 @@ public class Loan implements Serializable {
 		this.paidAmount = paidAmount;
 	}
 
-	
+	public double getDues() {
+		return dues;
+	}
+
+	public void setDues(double dues) {
+		this.dues = dues;
+	}
+
+	public String getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(String createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public String getModifiedOn() {
+		return modifiedOn;
+	}
+
+	public void setModifiedOn(String modifiedOn) {
+		this.modifiedOn = modifiedOn;
+	}
 
 	public boolean isActive() {
 		return active;
@@ -116,33 +120,12 @@ public class Loan implements Serializable {
 		this.studentId = studentId;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public String getCreatedOn() {
-		return createdOn;
-	}
-
-	public void setCreatedOn(String string) {
-		this.createdOn = string;
-	}
-
-	public String getModifiedOn() {
-		return modifiedOn;
-	}
-
-	public void setModifiedOn(String string) {
-		this.modifiedOn = string;
-	}
-
 	@Override
 	public String toString() {
 		return String.format(
-				"Loan [id=%s, loanReason=%s, loanAmount=%s, interestAmount=%s, totalPaybackAmount=%s, paidAmount=%s, dues=%s, createdOn=%s, modifiedOn=%s, active=%s, passbook=%s, studentId=%s]",
-				id, loanReason, loanAmount, interestAmount, totalPaybackAmount, paidAmount, createdOn, modifiedOn,
+				"LoanDTO [id=%s, loanReason=%s, loanAmount=%s, interestAmount=%s, totalPaybackAmount=%s, paidAmount=%s, dues=%s, createdOn=%s, modifiedOn=%s, active=%s, passbook=%s, studentId=%s]",
+				id, loanReason, loanAmount, interestAmount, totalPaybackAmount, paidAmount, dues, createdOn, modifiedOn,
 				active, passbook, studentId);
 	}
 
-	
 }

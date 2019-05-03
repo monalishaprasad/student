@@ -23,18 +23,18 @@ public class Passbook implements Serializable{
 	@Column(name = "Id", unique = true, nullable = false)
 	private int id;
 	
-	private String date;
-	private long repaidAmount;
-	private long outstandingBalance;
+	private String modifiedOnDate;
+	private double repaidAmount;
+	private double outstandingBalance;
 
 	
 	
-	public String getDate() {
-		return date;
+	public String getModifiedOnDate() {
+		return modifiedOnDate;
 	}
 
-	public void setDate(String string) {
-		this.date = string;
+	public void setModifiedOnDate(String string) {
+		this.modifiedOnDate = string;
 	}
 
 	public int getId() {
@@ -45,25 +45,25 @@ public class Passbook implements Serializable{
 		this.id = id;
 	}
 
-	public long getRepaidAmount() {
+	public double getRepaidAmount() {
 		return repaidAmount;
 	}
 
-	public void setRepaidAmount(long repaidAmount) {
+	public void setRepaidAmount(double repaidAmount) {
 		this.repaidAmount = repaidAmount;
 	}
 
-	public long getOutstandingBalance() {
+	public double getOutstandingBalance() {
 		return outstandingBalance;
 	}
 
-	public void setOutstandingBalance(long outstandingBalance) {
-		this.outstandingBalance = outstandingBalance;
+	public double setOutstandingBalance(double outstandingBalance) {
+		return this.outstandingBalance = outstandingBalance;
 	}
 
 	@Override
 	public String toString() {
-		return "Passbook [id=" + id + ", date=" + date + ", repaidAmount=" + repaidAmount + ", outstandingBalance="
+		return "Passbook [id=" + id + ", date=" + modifiedOnDate + ", repaidAmount=" + repaidAmount + ", outstandingBalance="
 				+ outstandingBalance + "]";
 	}
 
